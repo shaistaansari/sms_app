@@ -15,7 +15,7 @@ skip_before_action :verify_authenticity_token
         client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
         # Create and send an SMS message
         client.account.sms.messages.create(
-        from: TWILIO_CONFIG['from'],
+        from: '+17343897869',
         to: @user.phone,
         body: @user.email
       )
