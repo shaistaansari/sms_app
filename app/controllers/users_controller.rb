@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
  
+skip_before_action :verify_authenticity_token
+
   def new
     @user = User.new
   end
@@ -10,9 +12,8 @@ class UsersController < ApplicationController
     if @user.save
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
         # Instantiate a Twilio client
-         client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
-      
-         # Create and send an SMS message
+        client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
+        # Create and send an SMS message
         client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
